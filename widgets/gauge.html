@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script>
+	var looper;
+	var degrees = 135;
+	function rotateAnimation(el,speed)
+	{
+		var elem = document.getElementById(el);
+		
+		elem.style.transform = "rotate("+degrees+"deg)";
+		
+		looper = setTimeout('rotateAnimation(\''+el+'\','+speed+')',speed);
+		degrees++;
+		if(degrees > 359)
+		{
+			degrees = 1;
+		}
+		if(degrees == 45)
+		{
+			clearTimeout(looper);
+		}
+		document.getElementById("status").innerHTML = "rotate("+degrees+"deg)";
+	}
+	</script>
+	
+</head>
+
+<body>
+	<div style="position:relative; left:0; top:0;">
+			<img src="gauge_face.png" style="position:relative; top:0; left:0;"/>
+			<img id="needle" src="gauge_needle.png" style="position:absolute; top:0; left:0;"/>	
+	</div>
+	
+	<script>
+		rotateAnimation("needle",30);
+	</script>
+	
+	<h2 style="width:200px;" id="status"></h2>
+</body>  
+</html> 

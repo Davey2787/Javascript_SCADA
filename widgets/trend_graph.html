@@ -1,0 +1,193 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+		#myChart{border:#666 1px solid;}
+		
+	</style>
+	
+	<script>
+	window.onload = drawGraph; // Execute draw function when DOM is ready
+	  
+		
+	// Draws graph axis, Grid lines and Labels
+	function drawGraph() 
+	{
+		// Assign our canvas element to a variable 
+		var canvas = document.getElementById("myChart");
+		// Create the HTML5 context object to enable draw methods
+		var ctx = canvas.getContext("2d");
+		
+		//Graph axis
+			// X axis
+			ctx.beginPath();
+			ctx.moveTo(60, 430);
+			ctx.lineTo(440, 430);
+			ctx.fillStyle = "rgba(0,0,0,1)";
+			ctx.stroke();
+			// Y axis
+			ctx.beginPath();
+			ctx.moveTo(70, 440);
+			ctx.lineTo(70, 60);
+			ctx.fillStyle = "rgba(0,0,0,1)";
+			ctx.stroke();
+			
+		// Graph Grid
+			// Grid Horizontal lines
+			var yGrid = 60;
+			for (var i = 340; i > yGrid; i = i - 90)
+			{
+				ctx.beginPath();
+				ctx.moveTo(60, i);
+				ctx.lineTo(440, i);
+				ctx.strokeStyle = "rgba(149,245,175,1)";
+				ctx.stroke();
+			}
+			// Grid Vertical lines
+			var xGrid = 70;
+			for (var i = 430; i > xGrid; i = i - 90)
+			{
+				ctx.beginPath();
+				ctx.moveTo(i, 440);
+				ctx.lineTo(i, 60);
+				ctx.strokeStyle = "rgba(149,245,175,1)";
+				ctx.stroke();
+			}	
+		
+		// Graph Labels
+			// Title
+			ctx.textAlign = "center";
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("Temperature VS Time", 250, 20);
+			
+			// X Axis Label
+			ctx.textAlign = "center";
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("Time (mins)", 250, 490);
+			
+			// X Axis ticks
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("0", 69, 460);
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("1", 159, 460);
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("2", 249, 460);
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("3", 339, 460);
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("4", 429, 460);
+			
+			// Y Axis Label
+			ctx.save();
+			ctx.textAlign = "center";
+			ctx.translate(20,250);
+			ctx.rotate(-0.5*Math.PI);
+			var yAxisLabel = "Temperature (°C)";
+			ctx.fillText(yAxisLabel, 0, 0);
+			ctx.restore();	
+			
+			// Y Axis ticks 
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("25", 45, 345);
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("50", 45, 255);
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("75", 45, 165);
+			ctx.font = "bold 16px Arial";
+			ctx.fillText("100", 40, 75);
+			
+		
+	}
+	function drawLine(x,y)
+		{
+			// Assign our canvas element to a variable 
+			var canvas = document.getElementById("myChart");
+			// Create the HTML5 context object to enable draw methods
+			var ctx = canvas.getContext("2d");
+			
+			ctx.canvas.addEventListener('mousemove', function(event)
+			{ 
+				var mouseX = event.clientX - ctx.canvas.offsetLeft; 
+				var mouseY = event.clientY - ctx.canvas.offsetTop;
+				//var graphX = mouseX+70;
+				//var graphY = mouseY+60; 
+				var status = document.getElementById('status'); 
+				status.innerHTML = mouseX+" | "+mouseY; 
+			});
+			
+			var randomXdata = new Array();
+			var randomYdata = new Array();	
+			for(var i=0;i<450;i++)
+			{
+				randomXdata[i] = Math.floor((Math.random()*450)+1);
+			}
+			randomXdata.sort(function(a,b){return a-b});
+			for(var i=0;i<500;i++)
+			{
+				randomYdata[i] = Math.floor((Math.random()*360)+1);
+			}
+			randomYdata.sort(function(a,b){return a-b});
+			var j = 70;
+			var k = 430; 
+			var a = 5;
+			var next_grid_line = 340;
+			ctx.beginPath();
+			for(i=0; i<450;i++)
+				{
+					ctx.moveTo(x, y);
+					ctx.lineTo(j, k);
+					ctx.strokeStyle = "rgba(0,0,0,1)";
+					ctx.stroke();
+					
+						x=j;
+						y=k;
+						j = randomXdata[i]+70;
+						k = 430 - randomYdata[i];	
+					
+					//move x label ticks	
+						if(x > next_grid_line)
+						{
+							ctx.save()
+							ctx.clearRect(60,445,20,20);
+							ctx.font = "bold 16px Arial";
+							ctx.fillText(a - 4, 69, 460);
+							ctx.clearRect(150,445,20,20);
+							ctx.font = "bold 16px Arial";
+							ctx.fillText(a - 3, 159, 460);
+							ctx.clearRect(240,445,20,20);
+							ctx.font = "bold 16px Arial";
+							ctx.fillText(a - 2, 249, 460);
+							ctx.clearRect(330,445,20,20);
+							ctx.font = "bold 16px Arial";
+							ctx.fillText(a - 1, 339, 460);
+							ctx.clearRect(420,445,20,20);
+							ctx.font = "bold 16px Arial";
+							ctx.fillText(a, 429, 460);
+							ctx.restore(); 
+							a++
+							next_grid_line = next_grid_line + 90;
+						}
+				}
+		}
+	
+	</script>
+</head>
+<body>
+	<canvas id="myChart" width="500" height="500"></canvas>
+	<button onclick="drawLine(70,430)">Draw</button>
+	<h2 id="status">0 | 0</h2> 
+</body>  
+</html> 
+<!---function draw(x,y)
+{
+	Math.floor((Math.random()*100)+1); 
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+	ctx.save();
+	ctx.clearRect(0,0,550,400);
+	ctx.fillStyle = "rgba(0,200,0,1)";
+	ctx.fillRect (x, y, 50, 50);
+	ctx.restore(); 
+	x += 1;
+	var loopTimer = setTimeout('draw('+x+','+y+')',30);
+}--->

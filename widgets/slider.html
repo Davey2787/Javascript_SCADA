@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<script>
+	function sliderChange(val) 
+	{
+		document.getElementById('sliderStatus').innerHTML = val;
+	}
+	</script>
+	
+</head>
+
+<body>
+	
+	<h2>Slider Test</h2>
+	<input type="range" min="0" max="500" value="250" step="10" onChange="sliderChange(this.value)" />
+	<br /><br />
+	Slider Value = <span id="sliderStatus">250</span>
+	
+</body>
+</html>

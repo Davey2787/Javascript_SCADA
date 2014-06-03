@@ -1,0 +1,82 @@
+
+<!-- Lesson by Adam Khoury @ www.developphp.com -->
+<!-- Watch the video to get code explanation line by line -->
+<!-- http://www.youtube.com/watch?v=hUCT4b4wa-8 -->
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+canvas{border:#666 1px solid;}
+</style>
+<script type="text/javascript">
+	/*function draw(x,y)
+		{
+			var canvas = document.getElementById('canvas');
+			var ctx = canvas.getContext('2d');
+			ctx.save();
+			ctx.clearRect(0,0,550,400);
+			ctx.fillStyle = "rgba(0,200,0,1)";
+				ctx.fillRect (x, y, 50, 50);
+			ctx.restore(); 
+			x += 1;
+		}*/
+		//var randomData = new Array();
+		/*var i = 3;
+		var a = 0;
+		randomData[a]=2;
+		var temp = 0; 
+		while(i < 100)
+		{	
+			var j = Math.floor((Math.random()*100)+1);
+			a++;
+			if((i > j)&&(j < randomData[a-1]))
+			{
+				
+				randomData[a] = j;
+				document.write("Element " +a+ " contains: " +randomData[a]+ "<br />");
+				i++;
+			}
+			else
+			{
+				 //i++
+			}
+		}*/
+		
+		/*for(var i=0;i<100;i++)
+		{
+			randomXdata[i] = Math.floor((Math.random()*100)+1);
+		}
+		randomData.sort(function(a,b){return a-b});
+		for(var i=0;i<100;i++)
+		{
+			document.write("number " + randomData[i]+"<br />")
+		}*/
+			var randomXdata = new Array();
+			var randomYdata = new Array();	
+			for(var i=0;i<240;i++)
+			{
+				randomXdata[i] = Math.floor((Math.random()*240)+1);
+			
+			}
+			randomXdata.sort(function(a,b){return a-b});
+			for(var i=0;i<100;i++)
+			{
+				randomYdata[i] = Math.floor((Math.random()*100)+1);
+				
+			}
+			randomYdata.sort(function(a,b){return a-b});
+			for(var i=0;i<100;i++)
+			{
+				document.write("number " + randomYdata[i]+"<br />")
+			}
+			for(var i=0;i<240;i++)
+			{
+				document.write("number " + randomXdata[i]+"<br />")
+			}
+</script>
+</head>
+<body>
+<button onclick="draw(0,0)">Draw</button>
+<canvas id="canvas" width="550" height="400"></canvas>
+</body>  
+</html> 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+
+     <!-- define on/off styles -->
+     <style type="text/css">
+      .on  { background:blue; }
+      .off { background:red; }
+     </style>
+
+     <!-- define the toggle function -->
+     <script>
+		 var socket = io.connect('http://localhost:8080');
+				function toggleState(item)
+				{
+					var socket = io.connect('http://localhost:8080');
+				   if(item.className == "on") 
+				   {
+					  item.className="off";
+					  socket.emit('Button State',{btn: "off"});
+					 
+				   } 
+				   else 
+				   {
+					  item.className="on";
+					  socket.emit('Button State',{btn: "on"});
+					  
+				   }
+				}
+			socket.on('time_stamp',function(stuff){
+					console.log(stuff[0]+stuff[1]+stuff[2]);
+					//console.log(x_coor[0]);
+					//console.log(y_coor[0]);
+				})
+     </script>
+  </head>
+
+  <body>
+     <!-- call 'toggleState' whenever clicked -->
+     <input type="button" id="btn" value="button" 
+        class="off" onclick="toggleState(this)" />
+  </body>
+
+</html>

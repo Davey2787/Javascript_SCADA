@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+	<link rel="stylesheet" type="text/css" href="background.css">
+	<meta charset="utf-8">	
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	  
+	 <script>	 
+		 
+		  var socket = io.connect('http://localhost:8080');
+		  var tank1_level = 0;
+		  var tank2_level = 0;
+		  var pump1 = 'off';
+		  var valve1 = 'closed';
+		  var pump2 = 'off';
+		  var valve2 = 'closed';
+			<!--turn on/off Pump 1 LED-->
+				function Pump1_on(item)
+				{
+					socket.emit('Pump1 State',{pump1: "on"}); 
+					socket.on('Confirm Pump1 on', function (data) {
+						if(data['pump1_on'] == 'true'){
+							item.className="on"; 
+							pump1 = 'on';
+							Tank1_Level(tank1_level);
+						}
+				  });
+				}
+				
+					
+				function Pump1_off(item)
+				{
+					socket.emit('Pump1 State',{pump1: "off"});
+					socket.on('Confirm Pump1 off', function (data) {
+						if(data['pump1_off'] == 'true'){
+							item.className="off";
+							pump1 = 'off';
+							Tank1_Level(tank1_level);
+						}
+				  });  
+				}
+				
+				
+			<!--turn on/off Pump 2 LED-->
+				function Pump2_on(item)
+				{
+					socket.emit('Pump2 State',{pump2: "on"});
+					socket.on('Confirm Pump2 on', function (data) {
+						if(data['pump2_on'] == 'true'){
+							item.className="on"; 
+							pump2 = 'on';
+							Tank2_Level(tank2_level);
+						}
+				  }); 
+				}
+				function Pump2_off(item)
+				{
+					  socket.emit('Pump2 State',{pump2: "off"}); 
+					  socket.on('Confirm Pump2 off', function (data) {
+						if(data['pump2_off'] == 'true'){
+							item.className="off";
+							pump2 = 'off';
+							Tank2_Level(tank2_level);
+						}
+				  });  
+				}
+				
+			<!--turn on/off Valve 1 LED-->
+				function Valve1_open(item)
+				{
+					  socket.emit('Valve1 State',{valve1: "open"});
+					  socket.on('Confirm Valve1 open', function (data) {
+						if(data['Valve1_open'] == 'true'){
+							item.className="on";
+							valve1 = 'open';
+							Tank1_Level(tank1_level); 
+						}
+				  }); 
+					 
+				}
+				function Valve1_close(item)
+				{
+					  socket.emit('Valve1 State',{valve1: "closed"}); 
+					  socket.on('Confirm Valve1 closed', function (data) {
+						if(data['Valve1_closed'] == 'true'){
+							item.className="off"; 
+							valve1 = 'closed';
+							Tank1_Level(tank1_level);
+						}
+				  });  
+				}
+				
+			<!--turn on/off Valve 2 LED-->
+				function Valve2_open(item)
+				{
+					  socket.emit('Valve2 State',{valve2: "open"});
+					  socket.on('Confirm Valve2 open', function (data) {
+						if(data['Valve2_open'] == 'true'){
+							item.className="on"; 
+							valve2 = 'open';
+							Tank2_Level(tank2_level);
+						}
+				  }); 
+				}
+				function Valve2_close(item)
+				{
+					  socket.emit('Valve2 State',{valve2: "closed"}); 
+					  socket.on('Confirm Valve2 closed', function (data) {
+						if(data['Valve2_closed'] == 'true'){
+							item.className="off"; 
+							valve2 = 'closed';
+							Tank2_Level(tank2_level);
+						}
+				  });  
+				}
+				
+			<!--turn on/off Stirrer LED-->
+				function Stirrer_on(item)
+				{
+					  socket.emit('Stirrer State',{stirrer: "on"});  
+					  socket.on('Confirm Stirrer on', function (data) {
+						if(data['Stirrer_on'] == 'true'){
+							item.className="on"; 
+						}
+				  });
+				}
+				function Stirrer_off(item)
+				{ 
+					  socket.emit('Stirrer State',{stirrer: "off"}); 
+					   socket.on('Confirm Stirrer off', function (data) {
+						if(data['Stirrer_off'] == 'true'){
+							item.className="off";
+						}
+				  });  
+				}	
+				
+			<!--turn on/off Heating Coil LED-->
+				function HeatingCoil_on(setPoint, item)
+				{
+					var item = document.getElementById(item)
+					var set_point = document.getElementById(setPoint).value;
+					zeroFilledSetPoint = ('000' + set_point).substr(-3)
+					set_point = 'l3'+zeroFilledSetPoint+'$';		
+					socket.emit('Heating Coil State',{heatingCoil: set_point});   
+					   socket.on('Confirm Heating Coil on', function (data) {
+						if(data['Heating_Coil_on'] == 'true'){
+							item.className="on"; 
+						}
+					});
+					socket.on('Confirm Heating Coil off', function (data) {
+						if(data['Heating_Coil_off'] == 'true'){
+							item.className="off";
+						}
+					});  
+				}
+				function HeatingCoil_off(setPoint, item)
+				{  
+					  
+					  socket.emit('Heating Coil State',{heatingCoil: "off"}); 
+					 
+				}		
+			function TempControl_on(item)
+				{
+					  var tempUpdate = document.getElementById('TempDisplay');
+					  socket.emit('Temperature Control State',{tempCon: "on"});  
+					  socket.on('Confirm Temperature Control on', function (data) {
+						if(data['TempCon_on'] == 'true'){
+							item.className="on"; 
+						}
+						socket.on('Temperature Update', function (data) {
+							tempUpdate.innerHTML = "Tank 2 Temperature is " + data['TempVal']+ "°C";
+						});
+				  }); 
+				}
+			function TempControl_off(item)
+				{
+					  tempUpdate = document.getElementById('TempDisplay');
+					  socket.emit('Temperature Control State',{tempCon: "off"});  
+					  socket.on('Confirm Temperature Control off', function (data) {
+						if(data['TempCon_off'] == 'true'){
+							item.className="off"; 
+						}
+				  }); 
+				  tempUpdate.innerHTML = "";
+				}
+			
+			<!-- Limit Sw 1 Update -->
+			var sw = 1;
+				function limit_switch_update()
+				{
+						if(sw == 1){
+							socket.emit('Limit Switch 1 Update');
+							sw++;
+						}
+						else if(sw == 2){
+							socket.emit('Limit Switch 2 Update');
+							sw++
+						}
+						else if(sw == 3){
+							socket.emit('Limit Switch 3 Update');
+							sw++;
+						}
+						else{
+							socket.emit('Temperature Sensor Update');
+							sw = 1;
+						}
+				}
+				setInterval("limit_switch_update()",2000);
+				
+				<!-- Tank 1 Level Indicator -->
+				function Tank1_Level(level1) 
+					{
+						var meter1 = document.getElementById('levelMeter1');
+						var warning = document.getElementById('warning');
+						meter1.value = level1;
+						if(pump1 == 'on' && valve1 == 'open'){
+								
+						}
+						else{
+							if(pump1 == 'on'){
+								level1++;
+								setTimeout("Tank1_Level("+level1+")",300);
+							}
+							else if(valve1 == 'open'){
+								level1--;
+								setTimeout("Tank1_Level("+level1+")",300);
+							}
+						}
+							
+						tank1_level = level1;
+						if(level1 < 10)
+						{
+							warning.innerHTML = "Tank 1 Level too Low";			
+						}
+						else if(level1 > 90)
+						{
+							warning.innerHTML = "Tank 1 Level too High";	
+						}
+						else
+						{
+							warning.innerHTML = "";		
+						}
+					}
+					
+					<!-- Tank 2 Level Indicator -->
+					function Tank2_Level(level2) 
+					{
+						var meter2 = document.getElementById('levelMeter2');
+						var warning2 = document.getElementById('warning2');
+						meter2.value = level2;
+						if(pump2 == 'on' && valve2 == 'open'){
+								
+						}
+						else{
+							if(pump2 == 'on'){
+								level2++;
+								setTimeout("Tank2_Level("+level2+")",300);
+							}
+							else if(valve2 == 'open'){
+								level2--;
+								setTimeout("Tank2_Level("+level2+")",300);
+							}
+						}
+							
+						tank2_level = level2;
+						if(level2 < 10)
+						{
+							warning2.innerHTML = "Tank 2 Level too Low";			
+						}
+						else if(level2 > 90)
+						{
+							warning2.innerHTML = "Tank 2 Level too High";	
+						}
+						else
+						{
+							warning2.innerHTML = "";		
+						}
+					}
+					
+				function server_reset()
+				{
+					socket.emit('server reset');
+				
+				}	
+     </script>
+	
+  </head>
+
+  <body onload = "server_reset()">
+		
+    <div id="process">
+		<div id="green_light_P1"></div>
+		<div id="green_light_V1"></div>
+		<div id="green_light_P2"></div>
+		<div id="green_light_Stir"></div>
+		<div id="green_light_V2"></div>
+		<div id="red_light_HC"></div>
+		<div id="red_light_TS"></div>
+		<div id="tank_1" <p>Tank 1</p></div>
+		<div id="tank_2" <p>Tank 2</p></div>
+    </div>
+    
+    <div id="message"><h1>Messages</h1>
+		<h2 id = "warning"></h2>
+		<h2 id = "warning2"></h2>
+		<h2 id = "TempDisplay"></h2>
+    </div>
+    
+	<!-- Pump 1 On/OFF-->
+	<h1>Controls</h1>
+	
+	<h2>Pump 1</h2>
+	<input type="button" id="btn_Pump_1_on" value="On" 
+        class="off" onclick="Pump1_on(green_light_P1)", />
+    <input type="button" id="btn_Pump_1_off" value="Off" 
+        class="off" onclick="Pump1_off(green_light_P1)" />    
+    
+    <!-- Pump 2 On/OFF-->
+    <h2>Pump 2</h2>
+    <input type="button" id="btn_Pump_2_on" value="On" 
+        class="off" onclick="Pump2_on(green_light_P2)" />
+    <input type="button" id="btn_Pump_2_off" value="Off" 
+        class="off" onclick="Pump2_off(green_light_P2)" /> 
+        
+      <!-- Valve 1 Open/Close-->
+    <h2>Valve 1</h2>
+    <input type="button" id="btn_Valve_1_open" value="Open" 
+        class="off" onclick="Valve1_open(green_light_V1)" />
+    <input type="button" id="btn_Valve_1_closed" value="Close" 
+        class="off" onclick="Valve1_close(green_light_V1)" />    
+        
+    <!-- Valve 1 Open/Close-->
+    <h2>Valve 2</h2>
+    <input type="button" id="btn_Valve_2_open" value="Open" 
+        class="off" onclick="Valve2_open(green_light_V2)" />
+    <input type="button" id="btn_Valve_V2_closed" value="Close" 
+        class="off" onclick="Valve2_close(green_light_V2)" />  
+        
+    <!-- Stirrer 1 Open/Close-->
+    <h2>Stirrer</h2>
+    <input type="button" id="btn_Stirrer_on" value="On" 
+        class="off" onclick="Stirrer_on(green_light_Stir)" />
+    <input type="button" id="btn_Stirrer_off" value="Off" 
+        class="off" onclick="Stirrer_off(green_light_Stir)" />  
+        
+    <!-- Heating Coil On/Off Temperature Control On/Off -->
+    <h2>Temperature Control</h2>
+    <input type="number" id="HCsetPoint" name="HCsetPoint" min="0" max="100" value="0" onclick="HeatingCoil_on('HCsetPoint','red_light_HC')"  />
+    <input type="button" id="btn_TC_on" value="On" 
+        class="off" onclick="TempControl_on(red_light_TS)" />
+    <input type="button" id="btn_TC_off" value="Off" 
+        class="off" onclick="TempControl_off(red_light_TS)" /> 
+        
+        
+    <progress class="vert" id="levelMeter1" value="0" max="100"></progress>
+     <progress class="vert" id="levelMeter2" value="0" max="100"></progress>
+              
+  </body>
+
+</html>

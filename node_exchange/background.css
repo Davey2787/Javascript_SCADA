@@ -1,0 +1,140 @@
+
+
+#process {
+	position: absolute;
+	top:0;
+	right:0;
+	width:861px;
+	height:544px;
+	background: url('mimic.jpeg');
+	background-repeat: no-repeat;
+
+}
+
+#green_light_P1 {
+		position: relative;
+		top:90px;
+		left:47px;
+		width: 20px;
+		height: 20px;
+		border: solid 1px #000000;
+		border-radius: 50%;
+		
+}
+
+
+#green_light_V1 {
+		position: relative;
+		top:337px;
+		left:266px;
+		width: 20px;
+		height: 20px;
+		border: solid 1px #000000;
+		border-radius: 50%;
+		
+}
+#green_light_P2 {
+		position: relative;
+		top:338px;
+		left:415px;
+		width: 20px;
+		height: 20px;
+		border: solid 1px #000000;
+		border-radius: 50%;
+		
+}
+
+#green_light_Stir {
+		position: relative;
+		top:88px;
+		left:635px;
+		width: 17px;
+		height: 17px;
+		border: solid 1px #000000;
+		border-radius: 50%;
+}
+
+#green_light_V2 {
+		position: relative;
+		top:357px;
+		left:742px;
+		width: 20px;
+		height: 20px;
+		border: solid 1px #000000;
+		border-radius: 50%;		
+}
+
+
+#red_light_HC {
+		position: relative;
+		top:389px;
+		left:633px;
+		width: 20px;
+		height: 20px;
+		border: solid 1px #000000;
+		border-radius: 50%
+}
+
+#red_light_TS {
+		position: relative;
+		top:114px;
+		left:769px;
+		width: 20px;
+		height: 20px;
+		background-color: #DCDCDC;
+		border: solid 1px #000000;
+		border-radius: 50%
+}
+   
+#levelMeter1::-moz-progress-bar {
+		
+		background: #0000FF;
+}
+
+#levelMeter1.vert {-moz-orient: vertical;
+		height:185px;
+		width:15px;
+		position: absolute;
+		top:116px;
+		left:817px;
+}
+#levelMeter2::-moz-progress-bar {
+		
+		background: #0000FF;
+}
+
+#levelMeter2.vert {-moz-orient: vertical;
+		height:172px;
+		width:15px;
+		position: absolute;
+		top:290px;
+		left:972px;
+}
+
+#tank_1 {
+		position: relative;
+		top:65px;
+		left:252px;
+}
+
+#tank_2 {
+		position: relative;
+		top:165px;
+		left:620px;
+}
+
+#message{
+		position: absolute;
+		top:365px;
+		left:320px;
+}
+
+#green_light_P1.on { background:#19FF19; }
+#green_light_P2.on { background:#19FF19; }
+#green_light_V1.on { background:#19FF19; }
+#green_light_V2.on { background:#19FF19; }
+#green_light_Stir.on { background:#19FF19; }
+#red_light_HC.on { background:#FF0000; }
+#red_light_TS.on { background:#FF0000; }
+
+

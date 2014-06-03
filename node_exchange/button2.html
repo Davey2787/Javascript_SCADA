@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+
+	<style>
+	button{
+		width: 100px;
+		height: 100px;
+		background-color: #19FF19;
+		border: solid 1px #000000;
+		border-radius: 50%
+	}
+	</style>
+
+	<h1>JS Button test</h1>
+		
+	<script>
+					  
+	function start_button()
+	{	
+		var count=0;
+		var socket = io.connect('http://localhost:8080');
+		var btn = document.createElement("button");
+		var txt = document.createTextNode("Start");
+		var results = document.getElementById("results");
+		results.innerHTML="test";
+		btn.appendChild(txt);
+		document.body.appendChild(btn);
+		btn.id ="btn";
+		btn.onclick = colourChange;
+		function colourChange()
+		{
+				btn.style.background = "red";
+				request = new  XMLHttpRequest();
+				socket.emit('Button State',{btn: btn.style.background});
+				//request.open("GET","http://localhost:8000",false);
+				//request.send();
+				results.innerHTML="RESPONSE=";//+request.responseText;
+				return 0;
+		};
+		return 0;
+	};
+	</script>
+	
+</head>
+
+<body onload="start_button()">
+	<div id="results"></div>
+</body>
+</html>

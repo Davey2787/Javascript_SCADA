@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+	<link rel="stylesheet" type="text/css" href="background.css">
+	
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	  
+	 <script>	 
+		 
+		  var socket = io.connect('http://localhost:8080');
+		  //io.sockets.on('connection', function (socket) {
+			<!--turn on/off Pump 1 LED-->
+				function Pump1_on(item)
+				{
+					socket.emit('Pump1 State',{pump1: "on"}); 
+					socket.on('Confirm Pump1 on', function (data) {
+						if(data['pump1_on'] == 'true'){
+							item.className="on"; 
+						}
+				  });
+				}
+				function Pump1_off(item)
+				{
+					  item.className="off";  
+					  socket.emit('Pump1 State',{pump1: "off"});
+				}
+				
+			<!--turn on/off Pump 2 LED-->
+				function Pump2_on(item)
+				{
+					item.className="on";  
+					socket.emit('Pump2 State',{pump2: "on"}); 
+				}
+				function Pump2_off(item)
+				{
+					  item.className="off";  
+					  socket.emit('Pump2 State',{pump2: "off"}); 
+				}
+				
+			<!--turn on/off Valve 1 LED-->
+				function Valve1_open(item)
+				{
+					  item.className="on";  
+					  socket.emit('Valve1 State',{valve1: "open"}); 
+				}
+				function Valve1_close(item)
+				{
+					  item.className="off"; 
+					  socket.emit('Valve1 State',{valve1: "closed"});  
+				}
+				
+			<!--turn on/off Valve 2 LED-->
+				function Valve2_open(item)
+				{
+					  item.className="on"; 
+					  socket.emit('Valve2 State',{valve2: "open"}); 
+				}
+				function Valve2_close(item)
+				{
+					  item.className="off";  
+					  socket.emit('Valve2 State',{valve2: "closed"});
+				}
+				
+			<!--turn on/off Stirrer LED-->
+				function Stirrer_on(item)
+				{
+					  item.className="on"; 
+					  socket.emit('Stirrer State',{stirrer: "on"});  
+				}
+				function Stirrer_off(item)
+				{
+					  item.className="off";  
+					  socket.emit('Stirrer State',{stirrer: "off"}); 
+				}	
+				
+			<!--turn on/off Heating Coil LED-->
+				function HeatingCoil_on(item)
+				{
+					  item.className="on";
+					  socket.emit('Heating Coil State',{heatingCoil: "on"});   
+				}
+				function HeatingCoil_off(item)
+				{
+					  item.className="off";  
+					  socket.emit('Heating Coil State',{heatingCoil: "off"}); 
+				}		
+			//});
+     </script>
+	
+  </head>
+
+  <body>
+	
+    <div id="process">
+		<div id="green_light_P1"></div>
+		<div id="green_light_V1"></div>
+		<div id="green_light_P2"></div>
+		<div id="green_light_Stir"></div>
+		<div id="green_light_V2"></div>
+		<div id="red_light_HC"></div>
+		<div id="red_light_TS"></div>
+    </div>
+	
+	<!-- Pump 1 On/OFF-->
+	<h1>Controls</h1>
+	
+	<h2>Pump 1</h2>
+	<input type="button" id="btn_Pump_1_on" value="On" 
+        class="off" onclick="Pump1_on(green_light_P1)" />
+    <input type="button" id="btn_Pump_1_off" value="Off" 
+        class="off" onclick="Pump1_off(green_light_P1)" />    
+    
+    <!-- Pump 2 On/OFF-->
+    <h2>Pump 2</h2>
+    <input type="button" id="btn_Pump_2_on" value="On" 
+        class="off" onclick="Pump2_on(green_light_P2)" />
+    <input type="button" id="btn_Pump_2_off" value="Off" 
+        class="off" onclick="Pump2_off(green_light_P2)" /> 
+        
+      <!-- Valve 1 Open/Close-->
+    <h2>Valve 1</h2>
+    <input type="button" id="btn_Valve_1_open" value="Open" 
+        class="off" onclick="Valve1_open(green_light_V1)" />
+    <input type="button" id="btn_Valve_1_closed" value="Close" 
+        class="off" onclick="Valve1_close(green_light_V1)" />    
+        
+    <!-- Valve 1 Open/Close-->
+    <h2>Valve 2</h2>
+    <input type="button" id="btn_Valve_2_open" value="Open" 
+        class="off" onclick="Valve2_open(green_light_V2)" />
+    <input type="button" id="btn_Valve_V2_closed" value="Close" 
+        class="off" onclick="Valve2_close(green_light_V2)" />  
+        
+    <!-- Stirrer 1 Open/Close-->
+    <h2>Stirrer</h2>
+    <input type="button" id="btn_Stirrer_on" value="On" 
+        class="off" onclick="Stirrer_on(green_light_Stir)" />
+    <input type="button" id="btn_Stirrer_off" value="Off" 
+        class="off" onclick="Stirrer_off(green_light_Stir)" />  
+        
+    <!-- Heating Coil On/Off-->
+    <h2>Heating Coil</h2>
+    <input type="button" id="btn_HC_on" value="On" 
+        class="off" onclick="HeatingCoil_on(red_light_HC)" />
+    <input type="button" id="btn_HC_off" value="Off" 
+        class="off" onclick="HeatingCoil_off(red_light_HC)" /> 
+         
+  </body>
+
+</html>

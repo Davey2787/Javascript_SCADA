@@ -1,0 +1,201 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+TXBuffer            0x8c              serial.o
+RXBuffer            0x8c              serial.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x00000000         0x00008000
+ram              0x10000000         0x00002000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD init.o
+LOAD serial.o
+LOAD main.o
+LOAD /usr/local/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/4.8.3/armv6-m/libgcc.a
+                0x00000000                . = ORIGIN (flash)
+
+.text           0x00000000      0x948
+ *(.vectors)
+ .vectors       0x00000000       0xc0 init.o
+                0x00000000                Vectors
+ *(.text)
+ .text          0x000000c0       0xcc init.o
+                0x000000c0                clock_init
+                0x0000010c                init
+                0x00000184                Default_Handler
+ .text          0x0000018c      0x33c serial.o
+                0x0000018c                initUART
+                0x0000027c                UART_isr
+                0x000002d4                putBuf
+                0x00000320                getBuf
+                0x00000378                rx_count
+                0x0000038c                tx_count
+                0x000003a0                eputc
+                0x000003e0                egetc
+                0x000003f8                printString
+                0x00000420                HexDigit
+                0x00000460                printInteger
+ .text          0x000004c8      0x480 main.o
+                0x000004c8                delay
+                0x000004e4                ConfigPins
+                0x00000574                ReadADC
+                0x000005c0                ReadDigital
+                0x0000061c                WriteDigital
+                0x0000073c                GetCommand
+                0x000007a4                ScadaInterface
+                0x0000088c                SysTick
+                0x000008f0                initSysTick
+                0x00000924                main
+
+.glue_7         0x00000948        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x00000948        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x00000948        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x00000948        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x00000948        0x0
+ .iplt          0x00000000        0x0 init.o
+
+.rel.dyn        0x00000948        0x0
+ .rel.iplt      0x00000000        0x0 init.o
+
+.rodata         0x00000948       0x28
+ .rodata        0x00000948       0x28 main.o
+                0x10000000                . = ORIGIN (ram)
+
+.data           0x10000000        0x0 load address 0x00000970
+                0x00000970                INIT_DATA_VALUES = LOADADDR (.data)
+                0x10000000                INIT_DATA_START = .
+ *(.data)
+ .data          0x10000000        0x0 init.o
+ .data          0x10000000        0x0 serial.o
+ .data          0x10000000        0x0 main.o
+                0x10000000                INIT_DATA_END = .
+                0x10000000                BSS_START = .
+
+.igot.plt       0x10000000        0x0 load address 0x00000970
+ .igot.plt      0x00000000        0x0 init.o
+
+.bss            0x10000000      0x124 load address 0x00000970
+ *(.bss)
+ .bss           0x10000000        0x0 init.o
+ .bss           0x10000000        0x0 serial.o
+ .bss           0x10000000        0xc main.o
+                0x10000000                PWMCounter
+                0x10000004                Channel3Duty
+                0x10000008                Channel5Duty
+ COMMON         0x1000000c      0x118 serial.o
+                0x1000000c                TXBuffer
+                0x10000098                RXBuffer
+                0x10000124                BSS_END = .
+OUTPUT(main.elf elf32-littlearm)
+
+.debug_info     0x00000000      0x680
+ .debug_info    0x00000000      0x116 init.o
+ .debug_info    0x00000116      0x25f serial.o
+ .debug_info    0x00000375      0x30b main.o
+
+.debug_abbrev   0x00000000      0x3cc
+ .debug_abbrev  0x00000000       0xe8 init.o
+ .debug_abbrev  0x000000e8      0x15c serial.o
+ .debug_abbrev  0x00000244      0x188 main.o
+
+.debug_aranges  0x00000000       0x60
+ .debug_aranges
+                0x00000000       0x20 init.o
+ .debug_aranges
+                0x00000020       0x20 serial.o
+ .debug_aranges
+                0x00000040       0x20 main.o
+
+.debug_line     0x00000000      0x1ed
+ .debug_line    0x00000000       0x5b init.o
+ .debug_line    0x0000005b       0xaf serial.o
+ .debug_line    0x0000010a       0xe3 main.o
+
+.debug_str      0x00000000      0x2d0
+ .debug_str     0x00000000      0x132 init.o
+                                0x137 (size before relaxing)
+ .debug_str     0x00000132       0xba serial.o
+                                0x182 (size before relaxing)
+ .debug_str     0x000001ec       0xe4 main.o
+                                0x1dc (size before relaxing)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 init.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 serial.o
+ .comment       0x00000000       0x71 main.o
+
+.ARM.attributes
+                0x00000000       0x31
+ .ARM.attributes
+                0x00000000       0x31 init.o
+ .ARM.attributes
+                0x00000031       0x31 serial.o
+ .ARM.attributes
+                0x00000062       0x31 main.o
+
+.debug_frame    0x00000000      0x308
+ .debug_frame   0x00000000       0x68 init.o
+ .debug_frame   0x00000068      0x160 serial.o
+ .debug_frame   0x000001c8      0x140 main.o
+
+Cross Reference Table
+
+Symbol                                            File
+BSS_END                                           init.o
+BSS_START                                         init.o
+Channel3Duty                                      main.o
+Channel5Duty                                      main.o
+ConfigPins                                        main.o
+Default_Handler                                   init.o
+GetCommand                                        main.o
+HexDigit                                          serial.o
+INIT_DATA_END                                     init.o
+INIT_DATA_START                                   init.o
+INIT_DATA_VALUES                                  init.o
+PWMCounter                                        main.o
+RXBuffer                                          serial.o
+ReadADC                                           main.o
+ReadDigital                                       main.o
+ScadaInterface                                    main.o
+SysTick                                           main.o
+                                                  init.o
+TXBuffer                                          serial.o
+UART_isr                                          serial.o
+                                                  init.o
+Vectors                                           init.o
+WriteDigital                                      main.o
+clock_init                                        init.o
+delay                                             main.o
+egetc                                             serial.o
+                                                  main.o
+eputc                                             serial.o
+getBuf                                            serial.o
+init                                              init.o
+initSysTick                                       main.o
+initUART                                          serial.o
+                                                  main.o
+main                                              main.o
+                                                  init.o
+printInteger                                      serial.o
+                                                  main.o
+printString                                       serial.o
+                                                  main.o
+putBuf                                            serial.o
+rx_count                                          serial.o
+                                                  main.o
+tx_count                                          serial.o
